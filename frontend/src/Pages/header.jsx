@@ -5,7 +5,7 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 20px;
-  background-color: #00000060;
+  background-color: ${(props) => props.theme.header.backgroundColor};;
 `;
 
 const LogoImage = styled.img`
