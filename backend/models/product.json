@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "Name",
+    "brand": "Brand",
+    "company": "company",
+    "category": "Category A",
+    "description": "Description",
+    "resource": "resource",
+    "information": "information",
+    "other": "",
+    "image": "1693157986831.jpeg"
+  },
+  {
+    "id": 2,
+    "name": "Name",
+    "brand": "Brand",
+    "company": "company",
+    "category": "Category A",
+    "description": "Description",
+    "resource": "resource",
+    "information": "information",
+    "other": "",
+    "image": "1693157991177.jpeg"
+  }
+]

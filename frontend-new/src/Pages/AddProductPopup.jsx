@@ -6,6 +6,9 @@ import Title from "../Ui-Components/Title";
 import Input from "../Ui-Components/CustomInput";
 import TextArea from "../Ui-Components/TextArea";
 import CustomInput from "../Ui-Components/CustomInput";
+import {createProduct} from "../api/productApi";
+import {useDispatch} from "react-redux";
+import {saveProduct} from "../Redux/productSlice";
 
 const StyledPopup = styled.div`
   position: absolute;
@@ -44,17 +47,20 @@ const FieldBox = styled.div`
   width: 100%;
 `;
 
+const INITAL_VALUE ={
+  name: "",
+  brand: "",
+  company: "",
+  category: "",
+  description: "",
+  resource: "",
+  information: "",
+  other: ""
+}
 const AddProductPopup = ({ isOpen, onClose, onAdd }) => {
+  const dispatch = useDispatch();
   const [imageFile, setImageFile] = useState(null);
-  const [productData, setProductData] = useState({
-    name: "",
-    brand: "",
-    company: "",
-    category: "",
-    description: "",
-    resource: "",
-    information: "",
-  });
+  const [productData, setProductData] = useState(INITAL_VALUE);
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImageFile(file);
@@ -74,28 +80,10 @@ const AddProductPopup = ({ isOpen, onClose, onAdd }) => {
     for (const key in productData) {
       formData.append(key, productData[key]);
     }
-
-    axios
-      .post("http://localhost:5000/products", formData)
-      .then((response) => {
-        onAdd(response.data);
-        setProductData({
-          name: "",
-          brand: "",
-          company: "",
-          category: "",
-          description: "",
-          resource: "",
-          information: "",
-        });
-        setImageFile(null); // Clear the image file after submission
-        window.alert("Product added successfully!");
-        onClose();
-      })
-      .catch((error) => {
-        console.error("Error adding product", error);
-        window.alert("Error adding product");
-      });
+    console.log(formData);
+    createProduct(formData).then(res => {
+      dispatch(saveProduct(formData));
+    })
   };
 
   return (

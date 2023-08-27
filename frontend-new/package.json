@@ -1,24 +1,20 @@
 {
-  "name": "smart-bim",
+  "name": "frontend-new",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
   "dependencies": {
-    "@reduxjs/toolkit": "^1.9.5",
-    "axios": "^1.5.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4",
+    "axios": "^1.5.0",
     "react-redux": "^8.1.2",
+    "styled-components": "^6.0.7",
     "react-router-dom": "^6.15.0",
-    "react-script": "^2.0.5",
-    "styled-components": "^6.0.7"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
-    "eslint": "^8.45.0",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.3"
+    "@reduxjs/toolkit": "^1.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -27,7 +23,10 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import Title from "../Ui-Components/Title";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../Ui-Components/Button";
 import AddProductPopup from "./AddProductPopup";
+import {deleteProduct, getProducts} from "../api/productApi";
+import {fetchProducts, setProducts} from "../Redux/productSlice";
 
 const ProductBox = styled.div`
   display: flex;
@@ -50,13 +52,18 @@ const DeleteButton = styled.button`
 `;
 export default function Products() {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products);
+  const {data: products, loading} = useSelector((state) => state.products);
 
-  if (products.length === 0) {
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // State for popup
+
+  useEffect(()=>{
+    dispatch(fetchProducts());
+  },[dispatch])
+
+  if (loading) {
     return <div>Loading....</div>;
   }
 
-  const [isPopupOpen, setIsPopupOpen] = useState(false); // State for popup
 
   const handleButtonClick = () => {
     setIsPopupOpen(true); // Open the popup when the button is clicked
@@ -71,7 +78,10 @@ export default function Products() {
       "Are you sure you want to delete this product?"
     );
     if (confirmed) {
-      dispatch({ type: "DELETE_PRODUCT", payload: productId }); // Dispatch the delete action
+        deleteProduct(productId).then(res => {
+          dispatch(fetchProducts);
+        })
+
     }
   };
 
@@ -86,7 +96,7 @@ export default function Products() {
             {" "}
             <Styledproduct key={product.id}>
               <div className="product">
-                <ProductImage src={product.image} alt="img" />
+                <ProductImage src={process.env.REACT_APP_BACKEND_URL+ "/" + product.image} alt="img" />
               </div>
               <ProductContent>
                 <Title>{product.name}</Title>
