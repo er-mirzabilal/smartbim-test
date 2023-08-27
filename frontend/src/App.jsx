@@ -11,7 +11,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     axios
-      .get("http://localhost:5000/products")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/products`)
       .then((response) => {
         dispatch(setProducts(response.data));
       })
