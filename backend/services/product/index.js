@@ -71,12 +71,10 @@ class ProductService {
           const result = dataArray.find((item) => item.id === id);
           const updatedObject = {
             id: id,
-            name: payload?.name,
-            price: payload?.price,
-            description: payload?.description,
             image: result?.image,
+            ...payload,
           };
-           console.log(updatedObject);
+          console.log(updatedObject);
           const updatedArray = dataArray.map((item) =>
             item.id === id ? updatedObject : item
           );
@@ -161,7 +159,7 @@ class ProductService {
     });
   }
 
-  static create(payload, file) {
+  static create(payload, image) {
     return new Promise((resolve, reject) => {
       fs.readFile(Product, "utf8", (err, data) => {
         if (err) {
@@ -179,17 +177,14 @@ class ProductService {
 
           const newObject = {
             id: highestId + 1, // Incremented id value
-            name: payload?.name,
-            description: payload?.description,
-            price: payload?.price,
-            image: "",
+            ...payload,
           };
 
           // Handle file upload
-          if (file) {
-            newObject.image = file?.filename;
+          if (image) {
+            newObject.image = image?.filename;
           }
-          console.log(payload, file);
+          console.log(payload, image);
           dataArray.push(newObject);
 
           fs.writeFile(

@@ -6,6 +6,7 @@ const app = express();
 const path = require("path");
 const port = process.env.PORT || 3005;
 const productRouter = require("./routes/products");
+const configRouter = require("./routes/configs");
 const indexRouter = require("./routes/index");
 app.use(
   cors({
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true })); // For parsing URL-encoded requ
 app.use(express.static(path.join(__dirname, "assets/images")));
 
 app.use("/products", productRouter);
+app.use("/configs", configRouter);
 app.use("/*", indexRouter);
 
 app.listen(port, () => {

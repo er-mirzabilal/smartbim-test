@@ -47,8 +47,8 @@ exports.deleteProduct = async (req, res) => {
 
 exports.saveProduct = async (req, res) => {
   const payload = req.body;
-  const file = req.file;
-  ProductService.create(payload, file)
+  const image = req.file;
+  ProductService.create(payload, image)
     .then((product) => {
       handleResponse(res, 200, "Product added successfully", product);
     })

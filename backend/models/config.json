@@ -1,0 +1,18 @@
+{
+    "fontFamily": "'Poppins', sans-serif",
+    "color":{"defaultColor": "black","primaryColor": "#ED1C25", "secondaryColor": "white" },
+    "fontSize": "16px",
+    "logo": "",
+    "companyName": "Smart Bim",
+    "button" : {
+        "backgroundColor": "dodgerblue",
+        "color": "white"
+        },
+     "header": {
+    "backgroundcolor": "#1A1A1A",
+    "color": "white"
+        },
+    "text" : {
+        "color": "black"
+        }
+}
