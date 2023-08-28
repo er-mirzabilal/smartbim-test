@@ -21,7 +21,7 @@ const DEFAULT_CONFIG = {
     color: "white",
   },
   header: {
-    backgroundColor: "grey",
+    backgroundColor: "#1d3557",
     color: "white",
   },
   text: {
@@ -32,10 +32,11 @@ function ConfigurationProvider({ children }) {
   const [themeConfigration, setThemeConfigration] = useState(DEFAULT_CONFIG);
   const dispatch = useDispatch();
 
+
   useEffect(() => {
-    getConfig(SITE_ID).then((res) => {
+    getConfig(SITE_ID).then(async (res) => {
+       dispatch(setThemeConfig(res.data));
       setThemeConfig(res.data);
-      dispatch(setThemeConfig(res.data));
     });
   }, []);
 

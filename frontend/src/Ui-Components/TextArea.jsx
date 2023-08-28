@@ -13,7 +13,7 @@ const StyledTextArea = styled.textarea`
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: vertical;
-  width: 100%;
+  width: 97%;
 `;
 
 const TextArea = ({ onChange }) => {

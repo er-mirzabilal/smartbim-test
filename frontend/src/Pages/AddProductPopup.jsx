@@ -7,7 +7,7 @@ import Input from "../Ui-Components/CustomInput";
 import TextArea from "../Ui-Components/TextArea";
 import CustomInput from "../Ui-Components/CustomInput";
 import { createProduct } from "../api/productApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveProduct } from "../Redux/productSlice";
 
 const StyledPopup = styled.div`
@@ -17,34 +17,34 @@ const StyledPopup = styled.div`
   transform: translate(-50%, -50%);
   z-index: 10;
   overflow-y: scroll;
-  border: 1px solid black;
-  background-color: dodgerblue;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 `;
 
 const ModalContent = styled.div`
   padding: 50px;
-  width: 600px;
+  width: 605px;
   height: 500px;
 `;
 
 const CategoryDropdown = styled.select`
   height: 40px;
   width: 100%;
-  option {
-    color: ${(props) => props.theme.color.defaultColor};
-    font-size: 14px;
-    border: none;
-    padding: 20px;
-  }
 `;
 
 const FieldBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 10px;
   padding: 10px;
   width: 100%;
+`;
+
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: end;
+  padding-bottom: 10px;
+`;
+const ButtonBoxItem = styled.div`
+  padding-right: 10px;
 `;
 
 const INITAL_VALUE = {
@@ -62,6 +62,8 @@ const AddProductPopup = ({ isOpen, onClose }) => {
   const [imageFile, setImageFile] = useState(null);
   const [productData, setProductData] = useState(INITAL_VALUE);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const themeConfig = useSelector((state) => state.themeConfig.themeConfig);
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImageFile(file);
@@ -185,19 +187,26 @@ const AddProductPopup = ({ isOpen, onClose }) => {
                 <img
                   src={URL.createObjectURL(imageFile)}
                   alt="Selected"
-                  style={{ maxWidth: "100px" }}
+                  style={{ maxWidth: "200px", padding: "10px 0px" }}
                 />
+                <ButtonBoxItem>
+                  <Button danger onClick={() => setImageFile(null)}>
+                    Remove Image
+                  </Button>
+                </ButtonBoxItem>
               </FieldBox>
             )}
 
-            <FieldBox>
-              <Button primary onClick={handleSubmit} disabled={isSubmitting}>
-                Add
-              </Button>
+            <ButtonBox>
+              <ButtonBoxItem>
+                <Button primary onClick={handleSubmit} disabled={isSubmitting}>
+                  Add
+                </Button>
+              </ButtonBoxItem>
               <Button danger onClick={onClose} disabled={isSubmitting}>
                 Cancel
               </Button>
-            </FieldBox>
+            </ButtonBox>
           </div>
         </ModalContent>
       </div>

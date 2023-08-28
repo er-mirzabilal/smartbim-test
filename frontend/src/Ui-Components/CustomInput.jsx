@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const InputContainer = styled.div`
   display: inline-block;
+  width: 100%;
 `;
 
 const StyledInput = styled.input`
@@ -10,6 +11,7 @@ const StyledInput = styled.input`
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 97%;
 `;
 
 const CustomInput = ({ onChange }) => {
