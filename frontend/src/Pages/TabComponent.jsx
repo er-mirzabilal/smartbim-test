@@ -14,7 +14,7 @@ const Tab = styled.div`
   color: white;
   width: 100%;
   font-size: 20px;
-  font-family: var(--primary-font);
+  font-family: ${(props) => props.theme.fontFamily};
 `;
 
 const Content = styled.div`

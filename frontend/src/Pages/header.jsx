@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-
+import { useSelector } from "react-redux";
 const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 20px;
-  background-color: ${(props) => props.theme.header.backgroundColor};;
+  background-color: ${(props) => props.theme.header.backgroundColor};
 `;
 
 const LogoImage = styled.img`
@@ -14,9 +14,13 @@ const LogoImage = styled.img`
 `;
 
 const Header = () => {
+  const themeConfig = useSelector((state) => state.themeConfig.themeConfig);
   return (
     <HeaderContainer>
-      <LogoImage src="/image/" alt="Company Logo" />
+      <LogoImage
+        src={`${process.env.REACT_APP_BACKEND_URL}/${themeConfig.logo}`}
+        alt="Company Logo"
+      />
     </HeaderContainer>
   );
 };

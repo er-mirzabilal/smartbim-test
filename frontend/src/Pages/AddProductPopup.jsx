@@ -6,9 +6,9 @@ import Title from "../Ui-Components/Title";
 import Input from "../Ui-Components/CustomInput";
 import TextArea from "../Ui-Components/TextArea";
 import CustomInput from "../Ui-Components/CustomInput";
-import {createProduct} from "../api/productApi";
-import {useDispatch} from "react-redux";
-import {saveProduct} from "../Redux/productSlice";
+import { createProduct } from "../api/productApi";
+import { useDispatch } from "react-redux";
+import { saveProduct } from "../Redux/productSlice";
 
 const StyledPopup = styled.div`
   position: absolute;
@@ -31,7 +31,7 @@ const CategoryDropdown = styled.select`
   height: 40px;
   width: 100%;
   option {
-    color: black;
+    color: ${(props) => props.theme.color.defaultColor};
     font-size: 14px;
     border: none;
     padding: 20px;
@@ -47,7 +47,7 @@ const FieldBox = styled.div`
   width: 100%;
 `;
 
-const INITAL_VALUE ={
+const INITAL_VALUE = {
   name: "",
   brand: "",
   company: "",
@@ -55,12 +55,13 @@ const INITAL_VALUE ={
   description: "",
   resource: "",
   information: "",
-  other: ""
-}
-const AddProductPopup = ({ isOpen, onClose, onAdd }) => {
+  other: "",
+};
+const AddProductPopup = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const [imageFile, setImageFile] = useState(null);
   const [productData, setProductData] = useState(INITAL_VALUE);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImageFile(file);
@@ -74,18 +75,27 @@ const AddProductPopup = ({ isOpen, onClose, onAdd }) => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
     const formData = new FormData();
-    formData.append("image", imageFile); // Append the image file to the form data
+    formData.append("image", imageFile);
     for (const key in productData) {
       formData.append(key, productData[key]);
     }
-    console.log(formData);
-    createProduct(formData).then(res => {
-      dispatch(saveProduct(formData));
-    })
-  };
 
+    try {
+      await dispatch(saveProduct(formData));
+      setIsSubmitting(false);
+      window.alert("Product added successfully!");
+      onClose();
+    } catch (error) {
+      console.error("Error adding product:", error);
+      setIsSubmitting(false);
+    }
+  };
   return (
     <StyledPopup style={{ display: isOpen ? "block" : "none" }}>
       <div>
@@ -97,7 +107,7 @@ const AddProductPopup = ({ isOpen, onClose, onAdd }) => {
               <Title fontSize={14}>Name</Title>
               <CustomInput
                 type="text"
-                name="name" // Make sure this matches the name in productData
+                name="name"
                 placeholder="Enter product name"
                 onChange={(value) =>
                   handleInputChange({ target: { name: "name", value } })
@@ -108,7 +118,7 @@ const AddProductPopup = ({ isOpen, onClose, onAdd }) => {
               <Title fontSize={14}>Brand</Title>
               <CustomInput
                 type="text"
-                name="brand" // Make sure this matches the name in productData
+                name="brand"
                 placeholder="Enter brand"
                 onChange={(value) =>
                   handleInputChange({ target: { name: "brand", value } })
@@ -119,7 +129,7 @@ const AddProductPopup = ({ isOpen, onClose, onAdd }) => {
               <Title fontSize={14}>Company</Title>
               <CustomInput
                 type="text"
-                name="company" // Make sure this matches the name in productData
+                name="company"
                 placeholder="Enter company"
                 onChange={(value) =>
                   handleInputChange({ target: { name: "company", value } })
@@ -181,8 +191,12 @@ const AddProductPopup = ({ isOpen, onClose, onAdd }) => {
             )}
 
             <FieldBox>
-              <Button onClick={handleSubmit}>Add</Button>
-              <Button onClick={onClose}>Cancel</Button>
+              <Button primary onClick={handleSubmit} disabled={isSubmitting}>
+                Add
+              </Button>
+              <Button danger onClick={onClose} disabled={isSubmitting}>
+                Cancel
+              </Button>
             </FieldBox>
           </div>
         </ModalContent>

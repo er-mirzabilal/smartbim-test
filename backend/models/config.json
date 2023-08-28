@@ -1,19 +1,25 @@
-[{
-    "id" : 1,
-    "fontFamily": "'Poppins', sans-serif",
-    "fontSize": "16px",
-    "logo": "",
-    "companyName": "Smart Bim",
-    "button" : {
-        "backgroundColor": "dodgerblue",
-        "color": "white"
+[
+    {
+        "id": 1,
+        "fontFamily": "'Poppins', sans-serif",
+        "color": {
+            "defaultColor": "black",
+            "primaryColor": "#ED1C25",
+            "secondaryColor": "white"
         },
-     "header": {
-        "backgroundColor": "lightGrey",
-        "color": "white"
+        "fontSize": "16px",
+        "logo": "logo.png",
+        "companyName": "Smart Bim",
+        "button": {
+            "backgroundColor": "dodgerblue",
+            "color": "white"
         },
-    "text" : {
-        "color": "black"
+        "header": {
+            "backgroundColor": "lightGrey",
+            "color": "white"
+        },
+        "text": {
+            "color": "black"
         }
-}
+    }
 ]

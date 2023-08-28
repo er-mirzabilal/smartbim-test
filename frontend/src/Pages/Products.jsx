@@ -1,12 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Title from "../Ui-Components/Title";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../Ui-Components/Button";
 import AddProductPopup from "./AddProductPopup";
-import {deleteProduct, getProducts} from "../api/productApi";
-import {fetchProducts, setProducts} from "../Redux/productSlice";
+import { deleteProduct, getProducts } from "../api/productApi";
+import {
+  fetchProducts,
+  removeProduct,
+  setProducts,
+} from "../Redux/productSlice";
 
 const ProductBox = styled.div`
   display: flex;
@@ -43,27 +47,26 @@ const ButtonBox = styled.div`
   justify-content: end;
   padding: 20px;
 `;
-const DeleteButton = styled.button`
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
+
+const ProductCategory = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0px;
 `;
 export default function Products() {
   const dispatch = useDispatch();
-  const {data: products, loading} = useSelector((state) => state.products);
+  const { data: products, loading } = useSelector((state) => state.products);
 
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State for popup
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchProducts());
-  },[dispatch])
+  }, [dispatch]);
 
   if (loading) {
     return <div>Loading....</div>;
   }
-
 
   const handleButtonClick = () => {
     setIsPopupOpen(true); // Open the popup when the button is clicked
@@ -73,15 +76,19 @@ export default function Products() {
     setIsPopupOpen(false); // Close the popup
   };
 
-  const handleDelete = (productId) => {
+  const handleDelete = async (productId, event) => {
+    event.preventDefault();
+
     const confirmed = window.confirm(
       "Are you sure you want to delete this product?"
     );
-    if (confirmed) {
-        deleteProduct(productId).then(res => {
-          dispatch(fetchProducts);
-        })
 
+    if (confirmed) {
+      try {
+        dispatch(removeProduct(productId));
+      } catch (error) {
+        console.error("Error deleting product:", error);
+      }
     }
   };
 
@@ -96,14 +103,22 @@ export default function Products() {
             {" "}
             <Styledproduct key={product.id}>
               <div className="product">
-                <ProductImage src={process.env.REACT_APP_BACKEND_URL+ "/" + product.image} alt="img" />
+                <ProductImage
+                  src={process.env.REACT_APP_BACKEND_URL + "/" + product.image}
+                  alt="img"
+                />
               </div>
               <ProductContent>
                 <Title>{product.name}</Title>
-                <p>{product.category}</p>
-                <DeleteButton onClick={() => handleDelete(product.id)}>
-                  Delete
-                </DeleteButton>
+                <ProductCategory>
+                  {product.category}{" "}
+                  <Button
+                    danger="true"
+                    onClick={(event) => handleDelete(product.id, event)}
+                  >
+                    Delete
+                  </Button>
+                </ProductCategory>
               </ProductContent>
             </Styledproduct>
           </Link>

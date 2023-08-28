@@ -1,26 +1,14 @@
 [
   {
     "id": 1,
-    "name": "Name",
-    "brand": "Brand",
-    "company": "company",
-    "category": "Category A",
-    "description": "Description",
-    "resource": "resource",
-    "information": "information",
+    "name": "Suleman",
+    "brand": "brand",
+    "company": "comapny",
+    "category": "Category B",
+    "description": "Des",
+    "resource": "Red",
+    "information": "sssss",
     "other": "",
-    "image": "1693157986831.jpeg"
-  },
-  {
-    "id": 2,
-    "name": "Name",
-    "brand": "Brand",
-    "company": "company",
-    "category": "Category A",
-    "description": "Description",
-    "resource": "resource",
-    "information": "information",
-    "other": "",
-    "image": "1693157991177.jpeg"
+    "image": "1693205323141.jpg"
   }
 ]

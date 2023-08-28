@@ -5,7 +5,7 @@ import { styled } from "styled-components";
 import Title from "../Ui-Components/Title";
 import "./product-detail.css";
 import TabComponent from "./TabComponent";
-import {getProduct} from "../api/productApi";
+import { getProduct } from "../api/productApi";
 const ProductInfo = styled.div`
   display: flex;
   background-color: #f0f0f0;
@@ -40,7 +40,6 @@ const StyledListItem = styled.li`
   margin-bottom: 5px;
 `;
 
-
 const TabsContainer = styled.div`
   display: flex;
   background-color: #f0f0f0;
@@ -54,7 +53,7 @@ const Tab = styled.div`
   color: white;
   width: 100%;
   font-size: 20px;
-  font-family: var(--primary-font);
+  font-family: ${(props) => props.theme.fontFamily};
 `;
 
 const Content = styled.div`
@@ -69,15 +68,15 @@ const ContentContainer = styled.div`
 export default function ProductDetail() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
-  const [activeTab, setActiveTab] = useState('info');
+  const [activeTab, setActiveTab] = useState("info");
   const handleTabClick = (index) => {
     setActiveTab(index);
   };
 
-
   useEffect(() => {
-    getProduct(productId).then(res => {
-      setProduct(res.data)})
+    getProduct(productId).then((res) => {
+      setProduct(res.data);
+    });
   }, [productId]);
 
   if (!product) {
@@ -88,7 +87,10 @@ export default function ProductDetail() {
     <div>
       <ProductInfo>
         <ImageBox>
-          <ProductImage src={process.env.REACT_APP_BACKEND_URL + '/' + product.image} alt="img" />
+          <ProductImage
+            src={process.env.REACT_APP_BACKEND_URL + "/" + product.image}
+            alt="img"
+          />
         </ImageBox>
 
         <ProductContent>
@@ -102,24 +104,30 @@ export default function ProductDetail() {
         </ProductContent>
       </ProductInfo>
       <TabsContainer>
-        <Tab active={activeTab === 'info'} onClick={() => handleTabClick('info')}>
+        <Tab
+          active={activeTab === "info"}
+          onClick={() => handleTabClick("info")}
+        >
           Product Information
         </Tab>
-        <Tab active={activeTab === 'resource'} onClick={() => handleTabClick('resource')}>
+        <Tab
+          active={activeTab === "resource"}
+          onClick={() => handleTabClick("resource")}
+        >
           Resources
         </Tab>
-        <Tab active={activeTab === 'other'} onClick={() => handleTabClick('other')}>
+        <Tab
+          active={activeTab === "other"}
+          onClick={() => handleTabClick("other")}
+        >
           Other
         </Tab>
       </TabsContainer>
       <ContentContainer>
-        <Content active={activeTab === 'info'}>
-          {product.information}
-        </Content>
-        <Content active={activeTab === 'resource'}>{product.resource}</Content>
-        <Content active={activeTab === 'other'}>{product.other}</Content>
+        <Content active={activeTab === "info"}>{product.information}</Content>
+        <Content active={activeTab === "resource"}>{product.resource}</Content>
+        <Content active={activeTab === "other"}>{product.other}</Content>
       </ContentContainer>
-
     </div>
   );
 }
